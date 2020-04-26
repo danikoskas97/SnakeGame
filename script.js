@@ -63,7 +63,7 @@ window.onload = function(){
     }
     
     function speedUp(){
-        delay /= 2;
+        delay /= 1.2;
     }
     
     function gameOver(){
@@ -105,7 +105,7 @@ window.onload = function(){
         
         this.draw = function(){
             ctx.save();
-            ctx.fillStyle="#ff0000";
+            ctx.fillStyle="#12b8ff";
             for (let i=0 ; i < this.body.length ; i++){
                 drawBlock(ctx,this.body[i]);
             }
