@@ -1,5 +1,4 @@
-window.onload = function(){
-    //i change all var to const for adapting ES6 --v
+window.onload = function(){//i change all var to const for adapting ES6-ES7 --v
     const canvasWidth = 900;
     const canvasHeight = 600;
     const blockSize = 30;
@@ -9,15 +8,16 @@ window.onload = function(){
     const heightInBlocks = canvasHeight/blockSize;
     const centreX = canvasWidth / 2;
     const centreY = canvasHeight / 2;
+    const mysound = new sound("soundsnake.mp3");//added song in game when eating apple
     let delay;
     let snakee;
     let applee; 
     let score;
     let timeOut;
     
-    init();
+    init();//hoisting of func init() before declar it
     
-    function init(){
+    function init(){//declar func init()
         canvas.width = canvasWidth;
         canvas.height = canvasHeight;
         canvas.style.border = "30px solid black";
@@ -28,14 +28,29 @@ window.onload = function(){
         launch();
     }
 
-    function launch(){
-        snakee = new Snake([[6,4],[5,4],[4,4],[3,4],[2,4]],"right");
-        applee = new Apple([10,10]);
+    function launch(){//on launch one snake one apple 
+        snakee = new Snake([[6,4],[5,4],[4,4],[3,4],[2,4]],"right");//position is[[]]
+        applee = new Apple([10,10]);//and a new apple
         score = 0;
         clearTimeout(timeOut);
         delay = 100;
         refreshCanvas();
     }
+    //bult in func to work with sound
+    function sound(src) {
+        this.sound = document.createElement("audio");
+        this.sound.src = src;
+        this.sound.setAttribute("preload", "auto");
+        this.sound.setAttribute("controls", "none");
+        this.sound.style.display = "none";
+        document.body.appendChild(this.sound);
+        this.play = function(){
+          this.sound.play();
+        }
+        this.stop = function(){
+          this.sound.pause();
+        }
+      }
     
     function refreshCanvas(){
         snakee.advance();
@@ -44,6 +59,7 @@ window.onload = function(){
         } else {
             if (snakee.isEatingApple(applee)){
                 score++;
+                mysound.play();
                 snakee.ateApple = true;
                 
                 do {
@@ -63,7 +79,7 @@ window.onload = function(){
     }
     
     function speedUp(){
-        delay /= 1.2;
+        delay /= 1.2;//after eating 5 apple speed up
     }
     
     function gameOver(){
@@ -77,8 +93,8 @@ window.onload = function(){
         ctx.strokeText("Game Over", centreX, centreY - 180);
         ctx.fillText("Game Over", centreX, centreY - 180);
         ctx.font = "bold 30px sans-serif";
-        ctx.strokeText("Appuyer sur la touche Espace pour rejouer", centreX, centreY - 120);
-        ctx.fillText("Appuyer sur la touche Espace pour rejouer", centreX, centreY - 120);
+        ctx.strokeText("Tap SpaceBar to replay", centreX, centreY - 120);
+        ctx.fillText("Tap SpaceBar to replay", centreX, centreY - 120);
         ctx.restore();
     }
     
